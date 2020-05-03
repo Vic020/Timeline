@@ -6,12 +6,12 @@ import (
 )
 
 type ItemCon struct {
-	indexNum int
-	items    []Item
+	IndexNum int
+	Items    []Item
 }
 
 func (ic *ItemCon) New(name, avatar, timestamp, content string) (Item, error) {
-	index := ic.indexNum + 1
+	index := ic.IndexNum + 1
 	newItem := Item{
 		index:     index,
 		Name:      name,
@@ -19,17 +19,17 @@ func (ic *ItemCon) New(name, avatar, timestamp, content string) (Item, error) {
 		Timestamp: timestamp,
 		Content:   content,
 	}
-	ic.items = append(ic.items, newItem)
-	ic.indexNum = index
+	ic.Items = append(ic.Items, newItem)
+	ic.IndexNum = index
 
 	return newItem, nil
 }
 
 func (ic *ItemCon) Update(index int, name, avatar, timestamp, content string) (Item, error) {
-	if index > ic.indexNum {
+	if index > ic.IndexNum {
 		return Item{}, errors.New(ObjectNotExistError)
 	}
-	for _, item := range ic.items {
+	for _, item := range ic.Items {
 		if item.index == index {
 			item.Name = name
 			item.Avatar = avatar
@@ -43,9 +43,9 @@ func (ic *ItemCon) Update(index int, name, avatar, timestamp, content string) (I
 }
 
 func (ic *ItemCon) Delete(index int) error {
-	for _, item := range ic.items {
+	for _, item := range ic.Items {
 		if item.index == index {
-			//ic.items
+			//ic.Items
 			return nil
 		}
 	}
@@ -53,7 +53,7 @@ func (ic *ItemCon) Delete(index int) error {
 }
 
 func (ic *ItemCon) Get(index int) (Item, error) {
-	for _, item := range ic.items {
+	for _, item := range ic.Items {
 		if item.index == index {
 			return item, nil
 		}
@@ -62,18 +62,24 @@ func (ic *ItemCon) Get(index int) (Item, error) {
 }
 
 func (ic *ItemCon) All() []Item {
-	if ic.items == nil {
+	if ic.Items == nil {
 		return []Item{}
 	} else {
-		return ic.items
+		return ic.Items
 	}
 }
 
-func (ic *ItemCon) List(offset, limit int) []Item {
-	if ic.items == nil {
+func (ic *ItemCon) List(start, end int) []Item {
+	if start > len(ic.Items) {
+		start = len(ic.Items)
+	}
+	if end > len(ic.Items) {
+		end = len(ic.Items)
+	}
+	if ic.Items == nil {
 		return []Item{}
 	} else {
-		return ic.items[offset : offset+limit]
+		return ic.Items[start:end]
 	}
 }
 
