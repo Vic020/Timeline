@@ -36,7 +36,10 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 		res = append(res, v)
 	}
 
-	GetInstance().Render(w, "index.html", map[string]interface{}{"items": res})
+	GetInstance().Render(w, "index.html", map[string]interface{}{
+		"items":  res,
+		"slogan": Slogan,
+	})
 
 	//res, err := json.Marshal(itemList)
 	//if err != nil {
