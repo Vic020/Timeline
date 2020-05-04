@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -12,6 +11,18 @@ import (
 
 func listHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("New Request", r.URL.Path)
+
+	sugar := false
+
+	p := r.URL.Query().Get("p")
+	if p != "" && SugarCounter < 3 {
+		if p == NewPostSugar {
+			sugar = true
+		} else {
+			log.Println("wrong sugar", p, "counter is ", SugarCounter)
+			atomic.AddInt32(&SugarCounter, 1)
+		}
+	}
 
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 	limit, _ := strconv.Atoi(r.URL.Query().Get("limit"))
@@ -39,6 +50,8 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 	GetInstance().Render(w, "index.html", map[string]interface{}{
 		"items":  res,
 		"slogan": Slogan,
+		"sugar":  sugar,
+		"p":      p,
 	})
 
 	//res, err := json.Marshal(itemList)
@@ -57,7 +70,7 @@ func newHandler(w http.ResponseWriter, r *http.Request) {
 		// sugar check
 		p := r.URL.Query().Get("p")
 		if p != NewPostSugar && SugarCounter < 3 {
-			fmt.Println("wrong sugar", p, "counter is ", SugarCounter)
+			log.Println("wrong sugar", p, "counter is ", SugarCounter)
 			atomic.AddInt32(&SugarCounter, 1)
 			w.WriteHeader(404)
 			return

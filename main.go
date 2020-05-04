@@ -3,8 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path"
 )
 
 var (
@@ -22,6 +25,7 @@ func initRouter() {
 func iniFlag() {
 	flag.IntVar(&port, "port", 8080, "server port")
 	flag.StringVar(&address, "address", "127.0.0.1", "server address")
+	flag.StringVar(&LogsDir, "log", "logs/", "logs file")
 
 	rands := NewRandString()
 
@@ -35,13 +39,21 @@ func iniFlag() {
 
 func initLog() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
+
+	f, err := os.OpenFile(path.Join(LogsDir, "timeline.log"),
+		os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.SetOutput(io.MultiWriter(f, os.Stdout))
 }
 
 func initFunc() {
 
-	initLog()
-
 	iniFlag()
+
+	initLog()
 
 	initRouter()
 
