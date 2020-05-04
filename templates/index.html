@@ -46,6 +46,14 @@
     <div class="header">
         <h1>Timeline <small>{{.slogan}}</small></h1>
     </div>
+    {{if .sugar}}
+        <div style="margin: 20px auto;">
+            <form action="/create?p={{.p}}" method="post">
+                <input type="text" name="content" style="width: 100%;">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    {{end}}
     {{ range $item := .items }}
         <div class="item">
             <p class="info"><img src="{{ .Avatar }}"> {{.Name}} @ {{.Timestamp}}</p>

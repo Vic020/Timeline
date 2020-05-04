@@ -6,6 +6,8 @@ var (
 	SugarCounter int32
 
 	TemplatesDir string
+
+	LogsDir string
 )
 
 const (
