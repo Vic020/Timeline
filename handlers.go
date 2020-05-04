@@ -21,17 +21,30 @@ func listHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if limit <= 0 {
-		limit = 10
+		limit = 100
 	}
 
 	itemList := FileDaoHandle.GetItemList(page, limit)
-	res, err := json.Marshal(itemList)
-	if err != nil {
-		w.WriteHeader(500)
-		return
+
+	res := []Item{}
+
+	for i := len(itemList) - 1; i >= 0; i-- {
+		v := itemList[i]
+		in, _ := strconv.ParseInt(v.Timestamp, 10, 64)
+		v.Timestamp = time.Unix(in, 0).UTC().String()
+
+		res = append(res, v)
 	}
 
-	w.Write(res)
+	GetInstance().Render(w, "index.html", map[string]interface{}{"items": res})
+
+	//res, err := json.Marshal(itemList)
+	//if err != nil {
+	//	w.WriteHeader(500)
+	//	return
+	//}
+	//
+	//w.Write(res)
 }
 
 func newHandler(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +76,17 @@ func newHandler(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(200)
 			w.Write([]byte("content is nil"))
 		}
-		FileDaoHandle.AddItem(name, avatar, timestamp, content)
+		item := FileDaoHandle.AddItem(name, avatar, timestamp, content)
+
+		res, err := json.Marshal(item)
+
+		if err != nil {
+			w.WriteHeader(500)
+			return
+		}
+
+		w.Write(res)
+
 	} else {
 		w.WriteHeader(404)
 		return
