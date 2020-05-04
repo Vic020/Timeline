@@ -62,7 +62,7 @@ func (fs *FileSaver) Load() []Msg {
 	return messages
 }
 
-func main2() {
+func main() {
 	msg1 := Msg{1, "hello"}
 	msg2 := Msg{2, "hello 2"}
 
@@ -86,7 +86,7 @@ func main2() {
 
 }
 
-func main() {
+func main2() {
 	saver := FileSaver{filePath: ""}
 
 	saver.Load()

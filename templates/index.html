@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .header {
+            border-bottom: black 1px solid;
+        }
+
+        .item {
+
+        }
+
+        .item .info {
+            line-height: 15px;
+
+        }
+
+        .item .content {
+            padding-left: 15px;
+        }
+
+        .item > p > img {
+            max-width: 15px;
+            border-radius: 15px;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Timeline</h1>
+    </div>
+    {{ range $item := .items }}
+        <div class="item">
+            <p class="info"><img src="{{ .Avatar }}"> {{.Name}} @ {{.Timestamp}}</p>
+            <p class="content">{{.Content}}</p>
+        </div>
+    {{ end }}
+
+</div>
+
+</body>
+</html>
