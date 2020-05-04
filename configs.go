@@ -7,3 +7,7 @@ var (
 
 	TemplatesDir string
 )
+
+const (
+	Slogan = "享受一个人的时光"
+)
