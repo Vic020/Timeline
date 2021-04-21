@@ -13,7 +13,7 @@ type ItemCon struct {
 func (ic *ItemCon) New(name, avatar, timestamp, content string) (Item, error) {
 	index := ic.IndexNum + 1
 	newItem := Item{
-		index:     index,
+		Index:     index,
 		Name:      name,
 		Avatar:    avatar,
 		Timestamp: timestamp,
@@ -30,7 +30,7 @@ func (ic *ItemCon) Update(index int, name, avatar, timestamp, content string) (I
 		return Item{}, errors.New(ObjectNotExistError)
 	}
 	for _, item := range ic.Items {
-		if item.index == index {
+		if item.Index == index {
 			item.Name = name
 			item.Avatar = avatar
 			item.Timestamp = timestamp
@@ -44,7 +44,7 @@ func (ic *ItemCon) Update(index int, name, avatar, timestamp, content string) (I
 
 func (ic *ItemCon) Delete(index int) error {
 	for _, item := range ic.Items {
-		if item.index == index {
+		if item.Index == index {
 			//ic.Items
 			return nil
 		}
@@ -54,7 +54,7 @@ func (ic *ItemCon) Delete(index int) error {
 
 func (ic *ItemCon) Get(index int) (Item, error) {
 	for _, item := range ic.Items {
-		if item.index == index {
+		if item.Index == index {
 			return item, nil
 		}
 	}
@@ -84,7 +84,7 @@ func (ic *ItemCon) List(start, end int) []Item {
 }
 
 type Item struct {
-	index     int    `json:"index"`
+	Index     int    `json:"index"`
 	Name      string `json:"name"`
 	Avatar    string `json:"avatar"`
 	Timestamp string `json:"timestamp"`

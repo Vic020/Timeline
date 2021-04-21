@@ -112,10 +112,8 @@ func newHandler(w http.ResponseWriter, r *http.Request) {
 
 func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(404)
-	return
 }
 
 func updateHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(404)
-	return
 }

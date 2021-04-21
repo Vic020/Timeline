@@ -1,6 +1,7 @@
 package main
 
 var (
+	//NewPostSugar a secret key for POST requests
 	NewPostSugar string
 
 	SugarCounter int32

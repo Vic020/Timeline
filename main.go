@@ -15,7 +15,21 @@ var (
 	address string
 )
 
+func initStatic() {
+
+	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request){
+		http.ServeFile(w,r,"./templates/favicon.ico")
+	})
+
+
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
+}
+
 func initRouter() {
+
+	initStatic()
+
 	http.HandleFunc("/create", newHandler)
 	http.HandleFunc("/update", updateHandler)
 	http.HandleFunc("/delete", deleteHandler)
