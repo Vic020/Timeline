@@ -22,7 +22,7 @@ jobs:
       run: go test -v ./...
       
     - name: Build
-      run: build.sh
+      run: ./build.sh
       
     - name: Archive
       run: tar -zcvf release.tgz output/*
